@@ -55,7 +55,11 @@
         <p class="text-lg mb-8 max-w-xl mx-auto">La piattaforma cloud definitiva per il tuo business digitale.</p>
         <a href="#signup" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">Inizia Gratis</a>
         <div class="mt-12">
-          <img loading="lazy" src="https://via.placeholder.com/600x300" alt="Mockup app" class="mx-auto rounded shadow-lg">
+          <img
+                loading="lazy"
+                src="images/mockup-techflow.png"
+                alt="Mockup dashboard TechFlow"
+                class="mx-auto rounded shadow-lg w-full max-w-md sm:max-w-xl"/>
         </div>
       </div>
     </section>
@@ -70,6 +74,45 @@
           <div><div class="text-blue-600 text-5xl mb-4">⚙️</div><h4 class="text-xl font-semibold mb-2">Automazioni intelligenti</h4><p>Risparmia tempo con processi automatizzati su misura.</p></div>
         </div>
       </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section id="projects" class="reveal py-20 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+                <p id="projectCounter"
+                data-target="37"
+                class="text-center text-blue-600 text-xl font-semibold mb-2">
+                0 progetti completati
+                </p>
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">I nostri progetti</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Project Card -->
+        <div class="relative group overflow-hidden rounded shadow-lg cursor-pointer">
+            <img loading="lazy" src="https://www.appvizer.com/media/application/2629/screenshot/25165/82882.png" alt="Project 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+            <span class="text-white font-semibold text-lg">App CRM Avanzata</span>
+            </div>
+        </div>
+
+      <!-- Project Card -->
+        <div class="relative group overflow-hidden rounded shadow-lg cursor-pointer">
+            <img loading="lazy" src="https://images.ctfassets.net/dfcvkz6j859j/3yyuVQqgzMOMr2AGytPI4u/85f2a29fa2b977819e36531d96c85fa2/Web-Analytics-Dashboard-Template-Example.png" alt="Project 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+            <span class="text-white font-semibold text-lg">Dashboard Analytics</span>
+            </div>
+        </div>
+
+      <!-- Project Card -->
+        <div class="relative group overflow-hidden rounded shadow-lg cursor-pointer">
+            <img loading="lazy" src="https://www.resmio.com/wp-content/uploads/sistema-di-prenotazione-ristorante.webp" alt="Project 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+            <span class="text-white font-semibold text-lg">Sistema Prenotazioni</span>
+            </div>
+        </div>
+
+            </div>
+        </div>
     </section>
 
     <!-- Testimonials Slider -->
@@ -308,12 +351,54 @@
             icon.classList.add('rotate-180');
             toggle.scrollIntoView({ behavior: "smooth", block: "start" });
             }
+            
+    // Lightbox Viewer
+            document.querySelectorAll('#projects .group img').forEach(img => {
+            img.addEventListener('click', () => {
+                const overlay = document.createElement('div');
+                overlay.className = "fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50";
+                overlay.innerHTML = `
+                <div class="relative">
+                    <img src="${img.src}" class="max-w-[90vw] max-h-[80vh] rounded shadow-lg" />
+                    <button class="absolute top-0 right-0 m-2 text-white text-2xl font-bold" id="closeLightbox">&times;</button>
+                </div>
+                `;
+                document.body.appendChild(overlay);
+                document.getElementById('closeLightbox').addEventListener('click', () => overlay.remove());
+                overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            });
+            });
+    // Project counter animation
+                const projEl = document.getElementById('projectCounter');
+                let counted = false;
+
+                const projObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !counted) {
+                    counted = true;
+                    const target = +projEl.getAttribute('data-target');
+                    let count = 0;
+                    const increment = Math.ceil(target / 100);
+                    const timer = setInterval(() => {
+                        count += increment;
+                        if (count >= target) {
+                        projEl.textContent = `${target} progetti completati`;
+                        clearInterval(timer);
+                        } else {
+                        projEl.textContent = `${count} progetti completati`;
+                        }
+                    }, 20);
+                    projObserver.unobserve(projEl);
+                    }
+                });
+                }, { threshold: 0.1 });
+
+                projObserver.observe(projEl);
+
         });
         });
 
     </script>
-
-
 
   </body>
 </html>
